@@ -26,3 +26,10 @@ h1{
     height: calc(100% /3);
     border: 1px solid black;
 }
+
+.tic{
+    background-color: blue;
+}
+.toe{
+    background-color: red;
+}
