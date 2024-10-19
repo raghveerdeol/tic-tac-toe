@@ -7,8 +7,25 @@ $boardData = array(
     array('', '', ''),
 ); 
 
-$playerInput = '';
-$playerArray = str_split($playerInput);
+function game($board) {
+    for ($z=0; $z < count($board); $i++) {
+        for ($i=0; $i < count($board[$z]); $i++) { 
+            if ($board[$z][$i] === '') {
+                $board[$z][$i] = 'toe';
+                return $z.$i;
+            }
+        }
+    }
+};
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $playerInput = $_POST['tic'];
+    $playerArray = str_split($playerInput);
+    $boardData[$playerArray[0]][$playerArray[1]] = 'tic';
+    echo game($boardData);
+    exit();
+}
 
 
 ?>
@@ -27,13 +44,16 @@ $playerArray = str_split($playerInput);
     
     <main>
         <h1>Play the game</h1>
-        <form class="gameContainer">
+        <form action="index.php" method="POST" id="gameForm" class="gameContainer">
             <?php for ($a=0; $a < count($boardData); $a++) { ?>
                 <?php for ($i=0; $i < count($boardData[$a]); $i++) { ?>
-                    <input type="checkbox" class="square" value="<?php echo $a,$i ?>"></input>
+                    <input type="radio" class="square" name="tic" value="<?php echo $a,$i ?>"></input>
                 <?php } ?>
             <?php } ?>
         </form>
+        <button type="submit">Play</button>
     </main>
+
+    <script src="./script.js"></script>
 </body>
 </html>
