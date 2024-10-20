@@ -19,12 +19,14 @@ function game($board) {
             }
         }
     }
+    return null;
 }
 
 
+$game = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // get player move 
-    $playerMove = $_POST['tic'];
+    $playerMove = $_POST['cell'];
     // split player cell move value  
     $playerArray = str_split($playerMove);
     // Add player move 
@@ -32,12 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // get computer move 
     $computerMove = game($boardData);
-    // split computer cell move value
-    $computerArray = str_split($computerMove);
-    // ad computer move 
-    $boardData[$computerArray[0]][$computerArray[1]] = 'o';
-
+    if ($computerMove != null) {
+        // split computer cell move value
+        $computerArray = str_split($computerMove);
+        // ad computer move 
+        $boardData[$computerArray[0]][$computerArray[1]] = 'o';
+    }
     $_SESSION['boardData'] = $boardData;
+    if ($computerMove === null) {
+        $game = 'Game over';
+    }
 
 
 }
@@ -58,16 +64,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <main>
         <h1>Play the game</h1>
+        <!-- reset game  -->
         <form action="index.php" method="GET">
             <button type="submit" name="reset">Start New Game</button>
         </form>
+        <!-- game board  -->
         <form action="index.php" method="POST" id="gameForm" class="gameContainer">
             <?php for ($a=0; $a < count($boardData); $a++) { ?>
                 <?php for ($i=0; $i < count($boardData[$a]); $i++) { ?>
                     <input 
                     type="radio" 
-                    class="square" 
-                    name="tic" 
+                class="square 
+                <?php if ($boardData[$a][$i] === 'x') { ?>
+                    tic
+                <?php } if ($boardData[$a][$i] === 'o') { ?>
+                    toe
+                <?php } ?> " 
+                    name="cell" 
                     value="<?php echo $a.$i ?>"
                     <?php if ($boardData[$a][$i] !== '') { ?> disabled <?php } ?>
                     >
@@ -77,7 +90,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Submit your move</button>
         </form>
         <section>
-            <h2></h2>
+            <h2>
+                <?php if ($game != '') {
+                    echo $game;
+                } ?>
+            </h2>
         </section>
     </main>
 
