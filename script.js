@@ -18,10 +18,15 @@ gameForm.addEventListener('input', function(event) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data[0])
-        let toe = document.querySelector(`input[value='${data[0]}']`);
-        toe.classList.add('toe');
-        toe.setAttribute('disabled', true);
+        console.log(data.computerMove, data.winner)
+        if (data.winner) {
+            let gameOver = document.querySelector('h2#gameOver');
+            gameOver.innerHTML = data.winner;
+        } else if (data.computerMove) {
+            let toe = document.querySelector(`input[value='${data.computerMove}']`);
+            toe.classList.add('toe');
+            toe.setAttribute('disabled', true);
+        }
     })
     .catch(error => console.error("Errore:", error));
 });

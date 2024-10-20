@@ -19,9 +19,25 @@ function game($board) {
             }
         }
     }
-    // if there is no moves 
-    return null;
 };
+
+function checkWinner($board){
+    for ($i = 0; $i < 3; $i++) {
+        if ($board[$i][0] === $board[$i][1] && $board[$i][1] === $board[$i][2] && $board[$i][0] !== '') {
+            return $board[$i][0];
+        }
+        if ($board[0][$i] === $board[1][$i] && $board[1][$i] === $board[2][$i] && $board[0][$i] !== '') {
+            return $board[0][$i];
+        }
+    }
+    if ($board[0][0] === $board[1][1] && $board[1][1] === $board[2][2] && $board[0][0] !== '') {
+        return $board[0][0];
+    }
+    if ($board[0][2] === $board[1][1] && $board[1][1] === $board[2][0] && $board[0][2] !== '') {
+        return $board[0][2];
+    }
+    return ''; // Nessun vincitore
+}
 
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -29,25 +45,33 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $playerArray = str_split($playerMove);
     // add player move 
     $boardData[$playerArray[0]][$playerArray[1]] = 'x';
-    
+
+    $winner = checkWinner($boardData);
+    if ($winner !== '') {
+        echo json_encode(['winner' => "Il vincitore è: " . $winner]);
+        session_destroy(); // Reset del gioco in caso di vittoria
+        exit();
+    }
     
     $computerMove = game($boardData);
+
     $computerArray = str_split($computerMove);
     // add computer move 
     $boardData[$computerArray[0]][$computerArray[1]] = 'o';
-    
+
+    $winner = checkWinner($boardData);
+    if ($winner !== '') {
+        echo json_encode(['winner' => "Il vincitore è: " . $winner]);
+        session_destroy(); // Reset del gioco
+        exit();
+    }
+
     // update board 
     $_SESSION['boardData'] = $boardData;
-    echo json_encode([$computerMove]);
+    echo json_encode(['computerMove' => $computerMove]);
     exit();
 }
 
-
-if (isset($_POST['reset'])) {
-    session_destroy();  // Distruggi la sessione esistente
-    header("Location: index.php");  // Ricarica la pagina
-    exit();
-}
 
 
 ?>
@@ -76,9 +100,18 @@ if (isset($_POST['reset'])) {
                 <?php } ?>
             <?php } ?>
         </form>
-
+        <section>
+            <h2 id="gameOver"></h2>
+        </section>
     </main>
 
     <script src="./script.js"></script>
 </body>
 </html>
+<?php 
+if (isset($_POST['reset'])) {
+    session_destroy();
+    header("Location: index.php");
+    exit();
+}
+?>
