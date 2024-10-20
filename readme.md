@@ -1,0 +1,4 @@
+- create an array
+- create game board from array
+- use the value in inputs created with loop to have the selected cell;
+- use php to add diabled and classes
