@@ -109,35 +109,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form action="index.php" method="POST" id="gameForm" class="gameContainer">
             <?php for ($a=0; $a < count($boardData); $a++) { ?>
                 <?php for ($i=0; $i < count($boardData[$a]); $i++) { ?>
-                    <input 
-                        type="radio" 
-                        class="square hiddenRadio inputCell" 
-                        name="cell" 
-                        value="<?php echo $a.$i ?>"
-                        id="<?php echo 'cell'.$a.$i ?>"
-                        <?php if ($boardData[$a][$i] !== '' || $game !== '') { ?> disabled <?php } ?>
-                        required
-                        >
-                <?php } ?>
-            <?php } ?>
-            <?php for ($a=0; $a < count($boardData); $a++) { ?>
-                <?php for ($i=0; $i < count($boardData[$a]); $i++) { ?>
-                    <label 
-                        for="<?php echo 'cell'.$a.$i ?>"
+                    <label for="<?php echo 'cell'.$a.$i ?>"
                         class="square cell
                         <?php if ($boardData[$a][$i] === 'x') { ?>
                             tic
                         <?php } elseif ($boardData[$a][$i] === 'o') { ?>
                             toe
                         <?php } ?>
-                        ">
+                    ">
+                        <input 
+                        type="radio" 
+                        class="hiddenRadio inputCell" 
+                        name="cell" 
+                        value="<?php echo $a.$i ?>"
+                        id="<?php echo 'cell'.$a.$i ?>"
+                        <?php if ($boardData[$a][$i] !== '' || $game !== '') { ?> disabled <?php } ?>
+                        required
+                        >
                     </label>
-                <?php } ?>
+                        <?php } ?>
             <?php } ?>
             <button type="submit" class="newGame">Submit your move</button>
         </form>
-
-
 
         <section>
             <h2>

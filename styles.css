@@ -31,7 +31,6 @@ h1{
 }
 .cell{
     position: relative;
-    bottom: 100%;
     border: 1px solid white;
     text-align: center;
     vertical-align: middle;
@@ -53,8 +52,7 @@ h1{
     background-repeat: no-repeat;
     display: none;
 }
-.cell:hover::before,
-.cell:focus::before{
+.cell:hover::before{
     display: block;
 }
 .tic::before{
