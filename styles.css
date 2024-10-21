@@ -3,10 +3,15 @@
     margin: 0;
     box-sizing: border-box;
 }
-
+body{
+    background-color: black;
+    color: white;
+}
 h1{
     text-align: center;
     margin-top: 3rem;
+    text-transform: uppercase;
+    font-weight: 800;
 }
 
 .gameContainer{
@@ -14,7 +19,7 @@ h1{
     flex-wrap: wrap;
     width: 300px;
     height: 300px;
-    border: 1px solid black;
+    border: 1px solid white;
     position: relative;
     left: 50%;
     top: 50%;
@@ -24,16 +29,23 @@ h1{
 .square{
     width: calc(100% / 3);
     height: calc(100% /3);
-    border: 1px solid black;
-}
-
-.tic{
-    background-color: blue;
-}
-.toe{
-    background-color: red;
+    border: 1px solid white;
 }
 .disabled{
     pointer-events: none;
     opacity: .5;
+}
+#newGameForm{
+    display: flex;
+    justify-content: center;
+}
+.newGame{
+    margin: 1rem auto;
+    padding: .5rem;
+    font-size: large;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+#newGameForm > .newGame{
+    background-color: rgb(0, 102, 255);
 }
