@@ -19,7 +19,6 @@ h1{
     flex-wrap: wrap;
     width: 300px;
     height: 300px;
-    border: 1px solid white;
     position: relative;
     left: 50%;
     top: 50%;
@@ -29,7 +28,55 @@ h1{
 .square{
     width: calc(100% / 3);
     height: calc(100% /3);
+}
+.cell{
+    position: relative;
+    bottom: 100%;
     border: 1px solid white;
+    text-align: center;
+    vertical-align: middle;
+}
+.hiddenRadio{
+    opacity: 0;
+}
+.cell:hover{
+    cursor: pointer;
+}
+.cell::before,
+.inputCell::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('./img/incorrect-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: none;
+}
+.cell:hover::before,
+.cell:focus::before{
+    display: block;
+}
+.tic::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('./img/incorrect-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
+}
+.toe::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('./img/arrow.png');
+    color: white;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
 }
 .disabled{
     pointer-events: none;
@@ -40,12 +87,17 @@ h1{
     justify-content: center;
 }
 .newGame{
-    margin: 1rem auto;
+    margin: 1.5rem auto;
     padding: .5rem;
     font-size: large;
     font-weight: 600;
     text-transform: uppercase;
+    border: none;
+    border-radius: 10px;
 }
 #newGameForm > .newGame{
     background-color: rgb(0, 102, 255);
+}
+#gameForm > .newGame{
+    background-color: green;
 }
