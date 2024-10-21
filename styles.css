@@ -55,8 +55,10 @@ h1{
     display: block;
 }
 
-.cell:focus-within {
-    display: block;
+label:has(input:checked) {
+    background-image: url('./img/incorrect-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .tic::before{
