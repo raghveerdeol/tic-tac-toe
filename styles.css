@@ -36,13 +36,12 @@ h1{
     vertical-align: middle;
 }
 .hiddenRadio{
-    opacity: 0;
+    display: none;
 }
 .cell:hover{
     cursor: pointer;
 }
-.cell::before,
-.inputCell::before{
+.cell::before{
     content: '';
     position: absolute;
     width: 100%;
@@ -55,6 +54,11 @@ h1{
 .cell:hover::before{
     display: block;
 }
+
+.cell:focus-within {
+    display: block;
+}
+
 .tic::before{
     content: '';
     position: absolute;
@@ -76,10 +80,7 @@ h1{
     background-repeat: no-repeat;
     display: block;
 }
-.disabled{
-    pointer-events: none;
-    opacity: .5;
-}
+
 #newGameForm{
     display: flex;
     justify-content: center;

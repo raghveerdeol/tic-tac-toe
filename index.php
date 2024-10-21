@@ -127,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         required
                         >
                     </label>
-                        <?php } ?>
+                <?php } ?>
             <?php } ?>
             <button type="submit" class="newGame">Submit your move</button>
         </form>
