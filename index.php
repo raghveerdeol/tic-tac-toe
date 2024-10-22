@@ -181,7 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <header></header>
     
     <main>
-        <h1>Play the game</h1>
+        
         <!-- reset game  -->
         <form action="index.php" method="GET" id="newGameForm">
             <button type="submit" name="reset" class="newGame">Start New Game</button>
@@ -197,31 +197,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php } elseif ($boardData[$a][$i] === 'o') { ?>
                             toe
                         <?php } ?>
-                    ">
+                    "
+                    >
                         <input 
                         type="radio" 
-                        class="hiddenRadio inputCell" 
+                        class="hiddenRadio" 
                         name="cell" 
                         value="<?php echo $a.$i ?>"
                         id="<?php echo 'cell'.$a.$i ?>"
                         <?php if ($boardData[$a][$i] !== '' || $game !== '') { ?> disabled <?php } ?>
                         required
-                        >
+                        onclick="submit()">
                     </label>
                 <?php } ?>
             <?php } ?>
-            <button type="submit" class="newGame">Submit your move</button>
         </form>
 
         <section>
-            <h2>
+            <h2 class="endGame">
                 <?php if ($game != '') {
                     echo $game;
                 } ?>
             </h2>
         </section>
     </main>
-
     <script src="./script.js"></script>
 </body>
 </html>
