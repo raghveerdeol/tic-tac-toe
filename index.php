@@ -13,6 +13,32 @@ $boardData = $_SESSION['boardData'];
 
 // get computer move  
 function game($board) {
+    // check if computer can win
+    $move = findWinningMove($board, 'o');
+    if ($move !== null) {
+        return $move[0].$move[1];
+    }
+
+    // 2 try to stop player
+    $move = findWinningMove($board, 'x');
+    if ($move !== null) {
+        return $move[0].$move[1];
+    }
+
+    // 3 try to get a central
+    if ($board[1][1] === '') {
+        return 11;
+    }
+
+    // try to get angles
+    $corners = [[0, 0], [0, 2], [2, 0], [2, 2]];
+    foreach ($corners as $corner) {
+        if ($board[$corner[0]][$corner[1]] === '') {
+            return $corner[0].$corner[1];
+        }
+    }
+
+    // get first empty cell 
     for ($a=0; $a < count($board); $a++) { 
         for ($i=0; $i < count($board[$a]); $i++) { 
             if ($board[$a][$i] === '') {
@@ -22,6 +48,58 @@ function game($board) {
     }
     return null;
 }
+
+// Funnction to find a winning move
+function findWinningMove($board, $player) {
+
+    for ($i = 0; $i < 3; $i++) {
+        // row check
+        if ($board[$i][0] === $player && $board[$i][1] === $player && $board[$i][2] === '') {
+            return [$i, 2];
+        }
+        if ($board[$i][0] === $player && $board[$i][2] === $player && $board[$i][1] === '') {
+            return [$i, 1];
+        }
+        if ($board[$i][1] === $player && $board[$i][2] === $player && $board[$i][0] === '') {
+            return [$i, 0];
+        }
+
+        // col check
+        if ($board[0][$i] === $player && $board[1][$i] === $player && $board[2][$i] === '') {
+            return [2, $i];
+        }
+        if ($board[0][$i] === $player && $board[2][$i] === $player && $board[1][$i] === '') {
+            return [1, $i];
+        }
+        if ($board[1][$i] === $player && $board[2][$i] === $player && $board[0][$i] === '') {
+            return [0, $i];
+        }
+    }
+
+    // diagonal check
+    if ($board[0][0] === $player && $board[1][1] === $player && $board[2][2] === '') {
+        return [2, 2];
+    }
+    if ($board[0][0] === $player && $board[2][2] === $player && $board[1][1] === '') {
+        return [1, 1];
+    }
+    if ($board[1][1] === $player && $board[2][2] === $player && $board[0][0] === '') {
+        return [0, 0];
+    }
+
+    if ($board[0][2] === $player && $board[1][1] === $player && $board[2][0] === '') {
+        return [2, 0];
+    }
+    if ($board[0][2] === $player && $board[2][0] === $player && $board[1][1] === '') {
+        return [1, 1];
+    }
+    if ($board[1][1] === $player && $board[2][0] === $player && $board[0][2] === '') {
+        return [0, 2];
+    }
+
+    return null;
+}
+
 
 // check the winner 
 function checkWinner($board) {
@@ -62,26 +140,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $game = 'The Player Win';
     }
 
-    // get computer move 
-    $computerMove = game($boardData);
-    if ($computerMove != null) {
-        // split computer cell move value
-        $computerArray = str_split($computerMove);
-        // ad computer move 
-        $boardData[$computerArray[0]][$computerArray[1]] = 'o';
-        // check if computer win 
-        $computerWin = checkWinner($boardData);
-        if ($computerWin === 'win' && $playerWin === '') {
-            $game = 'The Computer Win';
+    if ($playerWin !== 'win') {
+        // get computer move 
+        $computerMove = game($boardData);
+        if ($computerMove != null) {
+            // split computer cell move value
+            $computerArray = str_split($computerMove);
+            // ad computer move 
+            $boardData[$computerArray[0]][$computerArray[1]] = 'o';
+            // check if computer win 
+            $computerWin = checkWinner($boardData);
+            if ($computerWin === 'win' && $playerWin === '') {
+                $game = 'The Computer Win';
+            }
+        }
+
+        $_SESSION['boardData'] = $boardData;
+        // if there is no more moves
+        if ($computerMove === null && $playerWin === '' && $computerWin === '') {
+            $game = 'Game over';
         }
     }
+        
 
-
-    $_SESSION['boardData'] = $boardData;
-    // if there is no more moves
-    if ($computerMove === null && $playerWin === '' && $computerWin === '') {
-        $game = 'Game over';
-    }
 
 }
 
